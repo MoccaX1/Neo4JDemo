@@ -1,0 +1,34 @@
+Load csv with headers from "file:///producers.csv" as n
+create (s:Producers)
+set s = n;
+
+Load csv with headers from "file:///PrimaryConsumers.csv" as n
+create (s:PrimaryConsumers)
+set s = n;
+
+
+Load csv with headers from "file:///SecondaryConsumers.csv" as n
+create (s:SecondaryConsumers)
+set s = n;
+
+
+Load csv with headers from "file:///TertiaryConsumers.csv" as n
+create (s:TertiaryConsumers)
+set s = n;
+
+
+Match (p:Producers),(pr:PrimaryConsumers)
+Create (p)-[:Provide]->(pr)
+Create (pr)-[:Consume]->(p)
+
+
+
+Match (p:PrimaryConsumers),(s:SecondaryConsumers)
+Create (p)-[:Provide]->(s)
+Create (s)-[:Consume]->(p)
+
+
+
+Match (s:SecondaryConsumers),(t:TertiaryConsumers)
+Create (s)-[:Provide]->(t)
+Create (t)-[:Consume]->(s)
